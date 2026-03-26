@@ -1,0 +1,36 @@
+<div class="auth-container">
+    <nz-card class="auth-card" [nzBordered]="false">
+        <div class="auth-header">
+            <h2 class="text-2xl font-bold text-gray-800">Welcome Back</h2>
+            <p class="text-gray-500">Sign in to your account to continue</p>
+        </div>
+
+        <form nz-form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-6">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please enter a valid email!">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="email" placeholder="Email" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Password must be at least 6 characters!">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Password" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+
+            <button nz-button nzType="primary" nzBlock [nzLoading]="loading()" class="auth-btn">
+                Sign In
+            </button>
+
+            <div class="mt-4 text-center">
+                <span class="text-gray-500">Don't have an account? </span>
+                <a routerLink="/register" class="text-blue-500 font-semibold">Sign Up</a>
+            </div>
+        </form>
+    </nz-card>
+</div>

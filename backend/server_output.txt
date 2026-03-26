@@ -1,0 +1,159 @@
+
+> backend@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m12:57:05 AM[0m] Starting compilation in watch mode...
+
+[[90m12:57:15 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +38ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:21 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 29820  - [39m03/26/2026, 12:57:22 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +560ms[39m
+Killed
+[2J[3J[H[[90m12:59:14 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m12:59:15 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +32ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 30427  - [39m03/26/2026, 12:59:17 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +115ms[39m
+[2J[3J[H[[90m12:59:20 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m12:59:21 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +22ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +13ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 30436  - [39m03/26/2026, 12:59:23 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +117ms[39m
+[2J[3J[H[[90m1:00:59 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m1:01:00 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +23ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +6ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 30548  - [39m03/26/2026, 1:01:02 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +115ms[39m
+[2J[3J[H[[90m1:02:48 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m1:02:57 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +34ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +6ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +11ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 30836  - [39m03/26/2026, 1:03:02 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +217ms[39m
+[2J[3J[H[[90m1:04:09 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m1:04:12 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +59ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +5ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +10ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +17ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 31643  - [39m03/26/2026, 1:04:33 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +354ms[39m
+[2J[3J[H[[90m1:05:31 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m1:05:34 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +26ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mComplaintsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +5ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mComplaintsController {/complaints}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/mine, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/complaints/:id/status, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31767  - [39m03/26/2026, 1:05:35 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +102ms[39m

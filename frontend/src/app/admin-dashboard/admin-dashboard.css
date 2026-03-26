@@ -1,0 +1,73 @@
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+  min-height: 100vh;
+}
+
+h1 {
+  color: #1e293b;
+  letter-spacing: -0.025em;
+  position: relative;
+  display: inline-block;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background: #2563eb;
+  border-radius: 2px;
+}
+
+.table-container {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 2rem !important;
+}
+
+.refresh-btn {
+  border-radius: 10px;
+  font-weight: 600;
+  height: 40px;
+}
+
+.action-btn {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+::ng-deep .ant-table {
+  background: transparent !important;
+}
+
+::ng-deep .ant-table-thead > tr > th {
+  background: rgba(248, 250, 252, 0.8) !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+::ng-deep .ant-tag {
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-weight: 600;
+  border: none;
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.table-container {
+  animation: slideInUp 0.5s ease-out;
+}

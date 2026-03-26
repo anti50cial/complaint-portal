@@ -1,0 +1,84 @@
+<div class="admin-container p-6" ngSkipHydration>
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 m-0">Admin Management</h1>
+    <div class="flex items-center gap-6">
+      <span class="text-gray-600">Welcome, <strong class="text-blue-600">{{ currentUser()?.name }}</strong></span>
+      <div class="flex gap-2">
+        <button nz-button nzType="primary" (click)="loadAllComplaints()" class="refresh-btn">
+          <span nz-icon nzType="reload"></span> Refresh
+        </button>
+        <button nz-button nzType="default" (click)="logout()" class="flex items-center">
+          <span nz-icon nzType="logout"></span> <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container p-6">
+    <h2 class="text-xl mb-6 font-semibold text-gray-700">All Student Complaints</h2>
+    <nz-table #adminTable [nzData]="complaints()" [nzLoading]="loading()" [nzPageSize]="10" [nzNoResult]="noData" ngSkipHydration>
+      <ng-template #noData>
+        <div class="p-10 text-center">
+          <span nz-icon nzType="inbox" class="text-4xl text-gray-300 mb-2"></span>
+          <p class="text-gray-500">No complaints found</p>
+        </div>
+      </ng-template>
+      <thead>
+        <tr>
+          <th nzWidth="20%">Title</th>
+          <th nzWidth="35%">Description</th>
+          <th nzWidth="15%">Date</th>
+          <th nzWidth="18%">Student Info</th>
+          <th nzWidth="12%" [nzSortFn]="sortByStatus" [nzSortPriority]="1">Status</th>
+          <th nzWidth="15%">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of adminTable.data; track data.id) {
+        <tr class="hover:bg-blue-50/30 transition-colors">
+          <td><span class="font-semibold text-blue-600">{{ data.title }}</span></td>
+          <td class="text-gray-600">
+            {{ data.description | slice:0:60 }}{{ data.description.length > 60 ? '...' : '' }}
+          </td>
+          <td class="text-gray-500">{{ data.createdAt | date:'MMM d, y, h:mm a' }}</td>
+          <td class="text-gray-600">
+            <div class="font-medium text-gray-800">{{ data.student?.name }}</div>
+            <div class="text-xs text-gray-500">{{ data.student?.email }}</div>
+          </td>
+          <td>
+            <nz-tag [nzColor]="getStatusColor(data.status)" class="status-tag">
+              {{ data.status }}
+            </nz-tag>
+          </td>
+          <td>
+            <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="text" class="action-btn">
+              <span nz-icon nzType="setting" nzTheme="outline"></span> Manage <span nz-icon nzType="down"></span>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item (click)="viewDetails(data)">
+                  <span nz-icon nzType="info-circle" nzTheme="outline"></span> View Details
+                </li>
+                <li nz-menu-divider></li>
+                <li nz-menu-item (click)="updateStatus(data, 'Reviewed')" [nzDisabled]="data.status === 'Reviewed'">
+                  <span nz-icon nzType="eye" nzTheme="outline"></span> Mark as Reviewed
+                </li>
+                <li nz-menu-item (click)="updateStatus(data, 'Resolved')" [nzDisabled]="data.status === 'Resolved'">
+                  <span nz-icon nzType="check-circle" nzTheme="outline"></span> Mark as Resolved
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #commentTemplate let-params>
+  <div style="margin-top: 10px;">
+    <p class="text-gray-600 mb-2">Add a comment for the student (optional):</p>
+    <textarea #commentInput nz-input [nzAutosize]="{ minRows: 4 }" placeholder="Enter your feedback here..." class="w-full"></textarea>
+  </div>
+</ng-template>

@@ -1,0 +1,64 @@
+<div class="auth-container">
+    <nz-card class="auth-card" [nzBordered]="false">
+        <div class="auth-header">
+            <h2 class="text-2xl font-bold text-gray-800">Create Account</h2>
+            <p class="text-gray-500">Join the student complaint portal</p>
+        </div>
+
+        <form nz-form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-6">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Name is required!">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="name" placeholder="Full Name" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please enter a valid email!">
+                    <nz-input-group nzPrefixIcon="mail">
+                        <input type="email" nz-input formControlName="email" placeholder="Email Address" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Password must be at least 6 characters!">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Password" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control [nzErrorTip]="confirmErrorTpl">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="confirmPassword" placeholder="Confirm Password" />
+                    </nz-input-group>
+                    <ng-template #confirmErrorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
+                        <ng-container *ngIf="registerForm.hasError('mismatch')">Passwords do not match!</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-select formControlName="role" nzPlaceHolder="Select Role">
+                        <nz-option nzValue="STUDENT" nzLabel="Student"></nz-option>
+                        <nz-option nzValue="ADMIN" nzLabel="Administrator"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+
+            <button nz-button nzType="primary" nzBlock [nzLoading]="loading()" class="auth-btn mt-2">
+                Sign Up
+            </button>
+
+            <div class="mt-4 text-center">
+                <span class="text-gray-500">Already have an account? </span>
+                <a routerLink="/login" class="text-blue-500 font-semibold">Sign In</a>
+            </div>
+        </form>
+    </nz-card>
+</div>

@@ -1,0 +1,108 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+  min-height: 100vh;
+}
+
+h1 {
+  color: #1a202c;
+  letter-spacing: -0.025em;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2.5rem;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: #3b82f6;
+  border-radius: 2px;
+}
+
+.form-container, .table-container {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container:hover, .table-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+::ng-deep .ant-form-item-label > label {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+::ng-deep .ant-input, ::ng-deep .ant-input-affix-wrapper {
+  border-radius: 8px;
+  border-color: #e2e8f0;
+  padding: 10px 14px;
+  transition: all 0.2s;
+}
+
+::ng-deep .ant-input:focus {
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+}
+
+::ng-deep .ant-btn-primary {
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  border: none;
+}
+
+::ng-deep .ant-btn-primary:hover {
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  transform: translateY(-1px);
+}
+
+::ng-deep .ant-table {
+  background: transparent !important;
+}
+
+::ng-deep .ant-table-thead > tr > th {
+  background: #f8fafc !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  border-bottom: 2px solid #f1f5f9 !important;
+}
+
+::ng-deep .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+::ng-deep .ant-tag {
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-weight: 500;
+  border: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.table-container {
+  animation: fadeIn 0.8s ease-out;
+}
