@@ -69,7 +69,11 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  currentComment = '';
+
   updateStatus(complaint: Complaint, status: 'Reviewed' | 'Resolved'): void {
+    this.currentComment = complaint.adminComment || '';
+
     this.modal.confirm({
       nzTitle: `Update Status to ${status}`,
       nzContent: this.commentTemplate,

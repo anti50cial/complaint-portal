@@ -79,6 +79,6 @@
 <ng-template #commentTemplate let-params>
   <div style="margin-top: 10px;">
     <p class="text-gray-600 mb-2">Add a comment for the student (optional):</p>
-    <textarea #commentInput nz-input [nzAutosize]="{ minRows: 4 }" placeholder="Enter your feedback here..." class="w-full"></textarea>
+    <textarea #commentInput nz-input [nzAutosize]="{ minRows: 4 }" [value]="currentComment" placeholder="Enter your feedback here..." class="w-full"></textarea>
   </div>
 </ng-template>

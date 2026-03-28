@@ -6,7 +6,9 @@ node_modules/
 dist/
 **/dist/
 .angular/
+**/ .angular/
 .nest/
+**/ .nest/
 build/
 out/
 
@@ -31,3 +33,4 @@ yarn-error.log*
 # Keep migrations in repo, but ignore local sqlite if used
 # *.db
 # *.db-journal
+**/src/generated/prisma/

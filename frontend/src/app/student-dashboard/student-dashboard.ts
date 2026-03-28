@@ -112,7 +112,7 @@ export class StudentDashboardComponent implements OnInit {
       nzTitle: complaint.title,
       nzContent: `<div style="padding-top: 10px;">
                     <p style="margin-bottom: 8px;"><strong>Status:</strong> ${complaint.status}</p>
-                    <p style="margin-bottom: 8px;"><strong>Date:</strong> ${new Date(complaint.createdAt).toLocaleDateString()}</p>
+                    <p style="margin-bottom: 8px;"><strong>Date:</strong> ${new Date(complaint.createdAt).toLocaleString()}</p>
                     <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
                     <p style="white-space: pre-wrap; color: #555;">${complaint.description}</p>
                     ${adminCommentHtml}

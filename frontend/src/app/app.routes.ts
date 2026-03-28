@@ -7,19 +7,21 @@ import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, title: 'Complaint Portal - Login' },
+    { path: 'register', component: RegisterComponent, title: 'Complaint Portal - Register' },
     {
         path: 'student-dashboard',
         component: StudentDashboardComponent,
         canActivate: [ authGuard, roleGuard ],
-        data: { role: 'STUDENT' }
+        data: { role: 'STUDENT' },
+        title: 'Complaint Portal - Student Dashboard'
     },
     {
         path: 'admin',
         component: AdminDashboardComponent,
         canActivate: [ authGuard, roleGuard ],
-        data: { role: 'ADMIN' }
+        data: { role: 'ADMIN' },
+        title: 'Complaint Portal - Admin Dashboard'
     },
     { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
