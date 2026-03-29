@@ -17,6 +17,18 @@
   animation: slideUp 0.6s ease-out;
 }
 
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 0.5rem;
+  }
+  .auth-card {
+    border-radius: 12px !important;
+  }
+  ::ng-deep .ant-card-body {
+    padding: 1.5rem !important;
+  }
+}
+
 .auth-header {
   text-align: center;
   margin-bottom: 2rem;
