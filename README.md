@@ -69,3 +69,25 @@ A comprehensive Student Complaint Portal built with a modern tech stack. Student
 ## 📜 License
 
 This project is proprietary and confidential.
+
+## Netlify Frontend Deployment
+
+The frontend can now be deployed on Netlify from the repository root.
+
+Required Netlify site setting:
+
+```env
+NETLIFY_API_BASE_URL=https://your-backend-host.example.com
+```
+
+The Netlify build uses [netlify.toml](/home/me/ProgrammingHub/mine/complaint-portal/netlify.toml) and [netlify-build.sh](/home/me/ProgrammingHub/mine/complaint-portal/frontend/scripts/netlify-build.sh) to:
+
+- build the Angular app from `frontend/`
+- copy `index.csr.html` to `index.html` for SPA hosting
+- write the production API base URL into `app-config.js`
+
+Your backend must also allow the Netlify origin:
+
+```env
+CORS_ALLOWED_ORIGINS=https://your-site.netlify.app
+```

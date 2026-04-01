@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { getAppConfig } from './core/config/app-config';
 
 export interface Complaint {
   id: string;
@@ -30,9 +31,8 @@ export interface ApiResponse<T> {
   providedIn: 'root'
 })
 export class ComplaintService {
-  private apiUrl = '/api/complaints';
-
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = `${getAppConfig().apiBaseUrl}/complaints`;
 
   getComplaints(): Observable<Complaint[]> {
     return this.http.get<ApiResponse<Complaint[]>>(this.apiUrl).pipe(map(res => res.data));

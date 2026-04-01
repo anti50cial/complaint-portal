@@ -1,8 +1,9 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, map } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { PlatformService } from '../core/services/platform.service';
+import { getAppConfig } from '../core/config/app-config';
 
 export interface User {
   id: string;
@@ -22,30 +23,42 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: 'STUDENT' | 'ADMIN';
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = '/api/auth';
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+  private readonly platform = inject(PlatformService);
+  private readonly apiUrl = `${getAppConfig().apiBaseUrl}/auth`;
   currentUser = signal<User | null>(null);
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private platform: PlatformService
-  ) {
+  constructor() {
     if (this.platform.isBrowser()) {
       this.loadUser();
     }
   }
 
-  register(data: any): Observable<any> {
-    return this.http.post<ApiResponse<any>>(`${this.apiUrl}/register`, data).pipe(
+  register(data: RegisterPayload): Observable<User> {
+    return this.http.post<ApiResponse<User>>(`${this.apiUrl}/register`, data).pipe(
       map(res => res.data)
     );
   }
 
-  login(credentials: { email: string; password: any }): Observable<AuthResponse> {
+  login(credentials: LoginPayload): Observable<AuthResponse> {
     return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/login`, credentials).pipe(
       map(res => res.data),
       tap(data => {
