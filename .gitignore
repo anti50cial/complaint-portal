@@ -35,5 +35,3 @@ yarn-error.log*
 # *.db-journal
 **/src/generated/prisma/
 .codex
-# Build artifacts
-backend/tsconfig.build.tsbuildinfo
