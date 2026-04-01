@@ -84,7 +84,8 @@ The Netlify build uses [netlify.toml](/home/me/ProgrammingHub/mine/complaint-por
 
 - build the Angular app from `frontend/`
 - copy `index.csr.html` to `index.html` for SPA hosting
-- write the production API base URL into `app-config.js`
+- keep the frontend API base URL on `/api`
+- generate a Netlify `_redirects` file that proxies `/api/*` to `NETLIFY_API_BASE_URL`
 
 Your backend must also allow the Netlify origin:
 

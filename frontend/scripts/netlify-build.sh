@@ -3,11 +3,21 @@
 set -euo pipefail
 
 readonly default_api_base_url="/api"
-api_base_url="${NETLIFY_API_BASE_URL:-$default_api_base_url}"
-api_base_url="${api_base_url%/}"
+backend_origin="${NETLIFY_API_BASE_URL:-}"
+api_base_url="$default_api_base_url"
 
-if [[ -z "$api_base_url" ]]; then
-  api_base_url="$default_api_base_url"
+if [[ -n "$backend_origin" ]]; then
+  backend_origin="${backend_origin%/}"
+fi
+
+if [[ "${NETLIFY:-}" == "true" && -z "$backend_origin" ]]; then
+  echo "NETLIFY_API_BASE_URL must be set for Netlify deployments." >&2
+  exit 1
+fi
+
+if [[ -n "$backend_origin" && ! "$backend_origin" =~ ^https?:// ]]; then
+  echo "NETLIFY_API_BASE_URL must start with http:// or https://." >&2
+  exit 1
 fi
 
 escaped_api_base_url="${api_base_url//\\/\\\\}"
@@ -28,3 +38,10 @@ window.__APP_CONFIG__ = {
   apiBaseUrl: "${escaped_api_base_url}"
 };
 EOF
+
+if [[ -n "$backend_origin" ]]; then
+  cat > "dist/frontend/browser/_redirects" <<EOF
+/api/* ${backend_origin}/:splat 200
+/* /index.html 200
+EOF
+fi
