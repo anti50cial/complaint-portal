@@ -1,79 +1,133 @@
-<div class="admin-container p-4 md:p-8" ngSkipHydration>
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-    <h1 class="text-3xl font-bold text-gray-800 m-0">Admin Management</h1>
-    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full md:w-auto bg-white/40 p-4 md:p-0 rounded-2xl border border-white/60 md:border-none">
-      <span class="text-gray-600">Welcome, <strong class="text-blue-600">{{ currentUser?.name }}</strong></span>
-      <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-        <button nz-button nzType="primary" (click)="loadAllComplaints()" class="refresh-btn w-full sm:w-auto">
-          <span nz-icon nzType="reload"></span> Refresh
-        </button>
-        <button nz-button nzType="default" (click)="logout()" class="flex items-center w-full sm:w-auto mt-2 sm:mt-0">
-          <span nz-icon nzType="logout"></span> <span class="ml-2">Logout</span>
-        </button>
+<div class="admin-container" ngSkipHydration>
+  <div class="admin-header">
+    <h1 class="admin-title">Admin Management</h1>
+    <div class="admin-toolbar">
+      <span class="admin-welcome">Welcome, <strong class="admin-welcome-name">{{ currentUser?.name }}</strong></span>
+      <div class="admin-actions">
+        <button type="button" (click)="loadAllComplaints()" class="refresh-btn">Refresh</button>
+        <button type="button" (click)="logout()" class="logout-btn">Logout</button>
       </div>
     </div>
   </div>
 
-  <div class="table-container p-4 md:p-8">
-    <h2 class="text-xl mb-6 font-semibold text-gray-700">All Student Complaints</h2>
-    <nz-table #adminTable [nzData]="complaints()" [nzLoading]="loading()" [nzPageSize]="10" [nzNoResult]="noData" [nzScroll]="{ x: '1000px' }" ngSkipHydration>
-      <ng-template #noData>
-        <div class="p-10 text-center">
-          <span nz-icon nzType="inbox" class="text-4xl text-gray-300 mb-2"></span>
-          <p class="text-gray-500">No complaints found</p>
-        </div>
-      </ng-template>
-      <thead>
-        <tr>
-          <th nzWidth="150px">Date</th>
-          <th>Description (Preview)</th>
-          <th>Student</th>
-          <th nzWidth="120px" [nzSortFn]="sortByStatus">Status</th>
-          <th nzWidth="120px">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (data of adminTable.data; track data.id) {
-        <tr class="hover:bg-blue-50/30 transition-colors" [attr.data-id]="data.id">
-          <td>{{ data.createdAt | date:'medium' }}</td>
-          <td class="text-gray-600">
-            {{ data.description | slice:0:100 }}{{ data.description.length > 100 ? '...' : '' }}
-          </td>
-          <td class="text-gray-600">
-            <div class="font-medium text-gray-800">{{ data.student?.name }}</div>
-            <div class="text-xs text-gray-500">{{ data.student?.email }}</div>
-          </td>
-          <td>
-            <nz-tag [nzColor]="getStatusColor(data.status)" class="status-tag">
-              {{ data.status }}
-            </nz-tag>
-          </td>
-          <td>
-            <button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="text" class="action-btn">
-              <span nz-icon nzType="setting" nzTheme="outline"></span> Manage <span nz-icon nzType="down"></span>
-            </button>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-              <ul nz-menu>
-                <li nz-menu-item (click)="viewDetails(data)">
-                  <span nz-icon nzType="info-circle" nzTheme="outline"></span> View Details
-                </li>
-                <li nz-menu-divider></li>
-                <li nz-menu-item (click)="updateStatus(data, 'Resolved')" [nzDisabled]="data.status === 'Resolved'">
-                  <span nz-icon nzType="check-circle" nzTheme="outline"></span> Mark as Resolved
-                </li>
-              </ul>
-            </nz-dropdown-menu>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </nz-table>
+  @if (feedback(); as message) {
+    <app-feedback-banner
+      [tone]="message.type"
+      [message]="message.text"
+      (dismissed)="dismissFeedback()"
+    />
+  }
+
+  <div class="table-container">
+    <h2 class="section-title">All Student Complaints</h2>
+    @if (loading() && complaints().length === 0) {
+      <p class="loading-state">Loading complaints...</p>
+    } @else if (displayedComplaints().length === 0) {
+      <div class="empty-state">
+        <span class="empty-state-icon" aria-hidden="true">[]</span>
+        <p class="empty-state-text">No complaints found</p>
+      </div>
+    } @else {
+      <div class="table-scroll">
+        <table class="complaints-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description (Preview)</th>
+              <th>Student</th>
+              <th>
+                <button type="button" class="sort-button" (click)="toggleStatusSort()">
+                  Status {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                </button>
+              </th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of displayedComplaints(); track data.id) {
+              <tr class="complaint-row" [attr.data-id]="data.id">
+                <td>{{ data.createdAt | date:'medium' }}</td>
+                <td class="complaint-preview">
+                  {{ data.description | slice:0:100 }}{{ data.description.length > 100 ? '...' : '' }}
+                </td>
+                <td class="student-cell">
+                  <div class="student-name">{{ data.student?.name }}</div>
+                  <div class="student-email">{{ data.student?.email }}</div>
+                </td>
+                <td>
+                  <app-status-badge [status]="data.status" />
+                </td>
+                <td>
+                  <div class="row-actions">
+                    <button class="ghost-button" type="button" (click)="viewDetails(data)">View</button>
+                    <button class="primary-button" type="button" (click)="openStatusDialog(data, 'Resolved')" [disabled]="data.status === 'Resolved'">Resolve</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </div>
 </div>
 
-<ng-template #commentTemplate let-params>
-  <div style="margin-top: 10px;">
-    <p class="text-gray-600 mb-2">Add a comment for the student (optional):</p>
-    <textarea #commentInput nz-input [nzAutosize]="{ minRows: 4 }" [value]="currentComment" placeholder="Enter your feedback here..." class="w-full"></textarea>
-  </div>
-</ng-template>
+@if (selectedComplaint(); as complaint) {
+  <app-dialog-shell
+    title="Complaint Details"
+    headingId="admin-complaint-title"
+    closeLabel="Close complaint details"
+    (closed)="closeDetails()"
+  >
+    <dl class="dialog-shell__detail-grid">
+      <div>
+        <dt>Submitted By</dt>
+        <dd>{{ complaint.student?.name }} ({{ complaint.student?.email }})</dd>
+      </div>
+      <div>
+        <dt>Status</dt>
+        <dd><app-status-badge [status]="complaint.status" /></dd>
+      </div>
+      <div>
+        <dt>Date</dt>
+        <dd>{{ complaint.createdAt | date:'medium' }}</dd>
+      </div>
+    </dl>
+
+    @if (complaint.views?.length) {
+      <p class="dialog-shell__meta"><strong>Seen by:</strong> {{ getViewedByNames(complaint) }}</p>
+    }
+
+    <div class="dialog-shell__panel">
+      <p class="dialog-shell__copy">{{ complaint.description }}</p>
+    </div>
+
+    @if (complaint.adminComment) {
+      <div class="dialog-shell__panel dialog-shell__panel--accent">
+        <p class="dialog-shell__panel-title">Our Comment</p>
+        <p class="dialog-shell__copy">{{ complaint.adminComment }}</p>
+      </div>
+    }
+  </app-dialog-shell>
+}
+
+@if (statusDialog(); as dialog) {
+  <app-dialog-shell
+    [title]="'Update Status to ' + dialog.status"
+    headingId="status-dialog-title"
+    closeLabel="Close status dialog"
+    (closed)="closeStatusDialog()"
+  >
+    <div class="form-field">
+      <label class="comment-label" for="status-comment">Add a comment for the student (optional)</label>
+      <textarea id="status-comment" class="comment-input" [value]="commentDraft()" (input)="updateCommentDraft($event)" placeholder="Enter your feedback here..."></textarea>
+    </div>
+
+    <div class="dialog-shell__actions">
+      <button type="button" class="ghost-button" (click)="closeStatusDialog()">Cancel</button>
+      <button type="button" class="primary-button" (click)="confirmStatusUpdate()" [disabled]="loading()">
+        {{ loading() ? 'Saving...' : 'Save Update' }}
+      </button>
+    </div>
+  </app-dialog-shell>
+}

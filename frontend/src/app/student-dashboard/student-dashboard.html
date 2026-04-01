@@ -1,77 +1,114 @@
-<div class="dashboard-container p-4 md:p-8" ngSkipHydration>
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-    <h1 class="text-2xl md:text-3xl font-bold m-0">Student Complaint Portal</h1>
-    <div class="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-between md:justify-end bg-white/50 p-3 md:p-0 rounded-xl md:bg-transparent border border-white/40 md:border-none">
-      <span class="text-gray-600 text-sm md:text-base">Welcome, <strong>{{ currentUser?.name }}</strong></span>
-      <button nz-button nzType="default" (click)="logout()" class="flex items-center hover:text-red-500 transition-colors rounded-lg">
-        <span nz-icon nzType="logout"></span>
-        <span class="ml-2">Logout</span>
-      </button>
+<div class="dashboard-container" ngSkipHydration>
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Student Complaint Portal</h1>
+    <div class="dashboard-toolbar">
+      <span class="dashboard-welcome">Welcome, <strong>{{ currentUser?.name }}</strong></span>
+      <button type="button" (click)="logout()" class="dashboard-logout-button">Logout</button>
     </div>
   </div>
 
-  <!-- Complaint Form -->
-  <div class="form-container mb-10 p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-    <h2 class="text-xl mb-4 font-semibold">Submit New Complaint</h2>
-    <form nz-form [formGroup]="complaintForm" (ngSubmit)="submitComplaint()">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="24" nzRequired nzFor="description">Describe your complaint in details</nz-form-label>
-        <nz-form-control [nzErrorTip]="descError">
-          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{ minRows: 4 }" placeholder="Provide full details of your complaint here"></textarea>
-          <ng-template #descError let-control>
-            @if (control.hasError('required')) {
-            Please enter a description
-            } @else if (control.hasError('minlength')) {
-            Description must be at least 10 characters
-            }
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
+  @if (feedback(); as message) {
+    <app-feedback-banner
+      [tone]="message.type"
+      [message]="message.text"
+      (dismissed)="dismissFeedback()"
+    />
+  }
 
-      <div class="flex justify-end mt-4">
-        <button nz-button nzType="primary" [nzLoading]="loading()">Submit Complaint</button>
+  <div class="form-container">
+    <h2 class="section-title">Submit New Complaint</h2>
+    <form [formGroup]="complaintForm" (ngSubmit)="submitComplaint()">
+      <div class="form-field">
+        <label class="field-label" for="description">Describe your complaint in detail</label>
+        <textarea class="field-input field-textarea" formControlName="description" id="description" placeholder="Provide full details of your complaint here"></textarea>
+        @if (hasDescriptionError('required')) {
+          <p class="field-error">Please enter a description.</p>
+        } @else if (hasDescriptionError('minlength')) {
+          <p class="field-error">Description must be at least 10 characters.</p>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button class="primary-button" type="submit" [disabled]="loading()">
+          {{ loading() ? 'Submitting...' : 'Submit Complaint' }}
+        </button>
       </div>
     </form>
   </div>
 
-  <!-- Complaints Table -->
-  <div class="table-container p-6 bg-white rounded-lg shadow-sm border border-gray-100">
-    <h2 class="text-xl mb-4 font-semibold">My Complaints</h2>
-    <nz-table #basicTable [nzData]="complaints()" [nzLoading]="loading()" [nzNoResult]="noData" [nzScroll]="{ x: '700px' }" ngSkipHydration>
-      <ng-template #noData>
-        <div class="p-10 text-center">
-          <span nz-icon nzType="inbox" class="text-4xl text-gray-300 mb-2"></span>
-          <p class="text-gray-500">No complaints yet</p>
-        </div>
-      </ng-template>
-      <thead>
-        <tr>
-          <th>Submitted Date</th>
-          <th>Description (Preview)</th>
-          <th>Status</th>
-          <th nzWidth="100px">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (data of basicTable.data; track data.id) {
-        <tr>
-          <td>{{ data.createdAt | date:'mediumDate' }}</td>
-          <td class="text-gray-600 italic">
-            {{ data.description | slice:0:60 }}{{ data.description.length > 60 ? '...' : '' }}
-          </td>
-          <td>
-            <nz-tag [nzColor]="getStatusColor(data.status)">
-              {{ data.status }}
-            </nz-tag>
-          </td>
-          <td>
-            <button nz-button nzType="text" (click)="viewDetails(data)" nz-tooltip nzTooltipTitle="View Details">
-              <span nz-icon nzType="eye"></span>
-            </button>
-          </td>
-        </tr>
-        }
-      </tbody>
-    </nz-table>
+  <div class="table-container">
+    <h2 class="section-title">My Complaints</h2>
+    @if (loading() && complaints().length === 0) {
+      <p class="loading-state">Loading complaints...</p>
+    } @else if (complaints().length === 0) {
+      <div class="empty-state">
+          <span class="empty-state-icon" aria-hidden="true">[]</span>
+          <p class="empty-state-text">No complaints yet</p>
+      </div>
+    } @else {
+      <div class="table-scroll">
+        <table class="complaints-table">
+          <thead>
+            <tr>
+              <th>Submitted Date</th>
+              <th>Description (Preview)</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of complaints(); track data.id) {
+              <tr>
+                <td>{{ data.createdAt | date:'mediumDate' }}</td>
+                <td class="complaint-preview">
+                  {{ data.description | slice:0:60 }}{{ data.description.length > 60 ? '...' : '' }}
+                </td>
+                <td>
+                  <app-status-badge [status]="data.status" />
+                </td>
+                <td>
+                  <button class="ghost-button" type="button" (click)="viewDetails(data)">View Details</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </div>
 </div>
+
+@if (selectedComplaint(); as complaint) {
+  <app-dialog-shell
+    title="Complaint Details"
+    headingId="student-complaint-title"
+    closeLabel="Close complaint details"
+    (closed)="closeDetails()"
+  >
+    <dl class="dialog-shell__detail-grid">
+      <div>
+        <dt>Status</dt>
+        <dd><app-status-badge [status]="complaint.status" /></dd>
+      </div>
+      <div>
+        <dt>Date</dt>
+        <dd>{{ complaint.createdAt | date:'medium' }}</dd>
+      </div>
+    </dl>
+
+    @if (complaint.views?.length) {
+      <p class="dialog-shell__meta"><strong>Seen by:</strong> {{ getViewedByNames(complaint) }}</p>
+    }
+
+    <div class="dialog-shell__panel">
+      <p class="dialog-shell__copy">{{ complaint.description }}</p>
+    </div>
+
+    @if (complaint.adminComment) {
+      <div class="dialog-shell__panel dialog-shell__panel--note">
+        <p class="dialog-shell__panel-title">Admin Feedback</p>
+        <p class="dialog-shell__copy">{{ complaint.adminComment }}</p>
+      </div>
+    }
+  </app-dialog-shell>
+}

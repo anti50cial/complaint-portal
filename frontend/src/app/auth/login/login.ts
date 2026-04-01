@@ -1,71 +1,70 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzCardModule } from 'ng-zorro-antd/card';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { AuthShellComponent } from '../../shared/ui/auth-shell/auth-shell';
+import { FeedbackBannerComponent } from '../../shared/ui/feedback-banner/feedback-banner';
 
 @Component({
     selector: 'app-login',
-    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterLink,
-        NzFormModule,
-        NzInputModule,
-        NzButtonModule,
-        NzCardModule
+        AuthShellComponent,
+        FeedbackBannerComponent
     ],
-    templateUrl: './login.html',
-    styleUrl: './login.css'
+    templateUrl: './login.html'
 })
 export class LoginComponent {
-    loginForm: FormGroup;
-    loading = signal(false);
+    private fb = inject(FormBuilder);
+    private authService = inject(AuthService);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
 
-    constructor(
-        private fb: FormBuilder,
-        private authService: AuthService,
-        private message: NzMessageService,
-        private router: Router
-    ) {
-        this.loginForm = this.fb.group({
-            email: [ '', [ Validators.required, Validators.email ] ],
-            password: [ '', [ Validators.required, Validators.minLength(6) ] ]
-        });
-    }
+    loginForm = this.fb.nonNullable.group({
+        email: [ '', [ Validators.required, Validators.email ] ],
+        password: [ '', [ Validators.required, Validators.minLength(6) ] ]
+    });
+    loading = signal(false);
+    errorMessage = signal<string | null>(null);
+    successMessage = signal<string | null>(
+        this.route.snapshot.queryParamMap.get('registered') ? 'Registration successful. Please sign in.' : null
+    );
 
     onSubmit(): void {
-        if (this.loginForm.valid) {
-            this.loading.set(true);
-            this.authService.login(this.loginForm.value).subscribe({
-                next: (res) => {
-                    this.message.success('Login successful');
-                    const role = res.user.role;
-                    if (role === 'ADMIN') {
-                        this.router.navigate([ '/admin' ]);
-                    } else {
-                        this.router.navigate([ '/student-dashboard' ]);
-                    }
-                },
-                error: (err) => {
-                    const errorMsg = err.error?.message || 'Invalid email or password';
-                    this.message.error(errorMsg);
-                    this.loading.set(false);
-                }
-            });
-        } else {
+        if (this.loginForm.invalid) {
             Object.values(this.loginForm.controls).forEach(control => {
                 if (control.invalid) {
                     control.markAsDirty();
                     control.updateValueAndValidity({ onlySelf: true });
                 }
             });
+            return;
         }
+
+        this.loading.set(true);
+        this.errorMessage.set(null);
+        this.successMessage.set(null);
+
+        this.authService.login(this.loginForm.getRawValue()).subscribe({
+            next: (res) => {
+                const role = res.user.role;
+                if (role === 'ADMIN') {
+                    this.router.navigate([ '/admin' ]);
+                } else {
+                    this.router.navigate([ '/student-dashboard' ]);
+                }
+            },
+            error: (err) => {
+                this.errorMessage.set(err.error?.message || 'Invalid email or password');
+                this.loading.set(false);
+            }
+        });
+    }
+
+    hasError(controlName: 'email' | 'password', error: string): boolean {
+        const control = this.loginForm.controls[ controlName ];
+        return control.touched && control.hasError(error);
     }
 }

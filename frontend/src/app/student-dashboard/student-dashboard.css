@@ -1,20 +1,32 @@
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 3rem;
+  padding: 1rem 1rem 3rem;
   background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
   min-height: 100vh;
 }
 
-h1 {
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
   color: #1a202c;
   letter-spacing: -0.025em;
   position: relative;
   display: inline-block;
-  margin-bottom: 2.5rem;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-h1::after {
+.dashboard-title::after {
   content: '';
   position: absolute;
   bottom: -8px;
@@ -25,7 +37,41 @@ h1::after {
   border-radius: 2px;
 }
 
+.dashboard-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.75rem;
+}
+
+.dashboard-welcome {
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.dashboard-logout-button {
+  display: inline-block;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #1f2937;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-logout-button:hover {
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
 .form-container, .table-container {
+  padding: 1.5rem;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -39,58 +85,140 @@ h1::after {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-::ng-deep .ant-form-item-label > label {
+.form-container {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #4a5568;
+  color: #111827;
 }
 
-::ng-deep .ant-input, ::ng-deep .ant-input-affix-wrapper {
-  border-radius: 8px;
-  border-color: #e2e8f0;
-  padding: 10px 14px;
-  transition: all 0.2s;
+.form-field {
+  margin-bottom: 1rem;
 }
 
-::ng-deep .ant-input:focus {
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.field-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.9rem;
+  background: #fff;
+  color: #0f172a;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input:focus {
+  outline: none;
   border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.14);
 }
 
-::ng-deep .ant-btn-primary {
-  height: 44px;
-  padding: 0 24px;
-  border-radius: 8px;
+.field-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.field-error {
+  margin: 0.45rem 0 0;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.primary-button,
+.ghost-button {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.85rem;
   font-weight: 600;
-  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
-  background: linear-gradient(to right, #3b82f6, #2563eb);
-  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-::ng-deep .ant-btn-primary:hover {
-  background: linear-gradient(to right, #2563eb, #1d4ed8);
+.primary-button {
+  border: none;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: #fff;
+  box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+}
+
+.primary-button:hover,
+.ghost-button:hover {
   transform: translateY(-1px);
 }
 
-::ng-deep .ant-table {
-  background: transparent !important;
+.primary-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
 }
 
-::ng-deep .ant-table-thead > tr > th {
-  background: #f8fafc !important;
-  font-weight: 700 !important;
-  color: #475569 !important;
-  border-bottom: 2px solid #f1f5f9 !important;
+.ghost-button {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #1d4ed8;
 }
 
-::ng-deep .ant-table-tbody > tr > td {
-  border-bottom: 1px solid #f1f5f9;
+.loading-state,
+.empty-state {
+  padding: 2.5rem;
+  text-align: center;
 }
 
-::ng-deep .ant-tag {
-  border-radius: 6px;
-  padding: 2px 10px;
-  font-weight: 500;
-  border: none;
+.empty-state-icon {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 2.25rem;
+  color: #d1d5db;
+}
+
+.empty-state-text {
+  margin: 0;
+  color: #6b7280;
+}
+
+.complaint-preview {
+  color: #4b5563;
+  font-style: italic;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.complaints-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 680px;
+}
+
+.complaints-table th,
+.complaints-table td {
+  padding: 0.95rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+.complaints-table th {
+  font-weight: 700;
+  color: #475569;
+  background: #f8fafc;
 }
 
 /* Animations */
@@ -105,4 +233,32 @@ h1::after {
 
 .table-container {
   animation: fadeIn 0.8s ease-out;
+}
+
+@media (min-width: 768px) {
+  .dashboard-container {
+    padding: 2rem 2rem 3rem;
+  }
+
+  .dashboard-header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .dashboard-title {
+    font-size: 1.875rem;
+  }
+
+  .dashboard-toolbar {
+    width: auto;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
+
+  .dashboard-welcome {
+    font-size: 1rem;
+  }
 }

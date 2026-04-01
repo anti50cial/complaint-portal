@@ -42,7 +42,7 @@ export class ComplaintService {
     return this.http.get<ApiResponse<Complaint[]>>(`${this.apiUrl}/mine`).pipe(map(res => res.data));
   }
 
-  createComplaint(data: { title: string, description: string }): Observable<Complaint> {
+  createComplaint(data: { description: string }): Observable<Complaint> {
     return this.http.post<ApiResponse<Complaint>>(this.apiUrl, data).pipe(map(res => res.data));
   }
 
