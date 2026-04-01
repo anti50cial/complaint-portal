@@ -1,5 +1,9 @@
 [build]
   base = "frontend"
-  command = "./scripts/netlify-build.sh"
+  command = "bun install && bun run build"
   publish = "dist/frontend/browser"
 
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
