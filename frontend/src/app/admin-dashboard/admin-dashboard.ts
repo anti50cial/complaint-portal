@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject, ViewChild, ElementRef, TemplateRef } from '@angular/core';
+import { Component, OnInit, signal, inject, ViewChild, ElementRef, TemplateRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
@@ -30,10 +30,9 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css'
 })
-export class AdminDashboardComponent implements OnInit {
-  complaints = signal<Complaint[]>([]);
-  loading = signal(false);
-  currentUser = signal<any>(null);
+export class AdminDashboardComponent implements OnInit, AfterViewInit, OnDestroy {
+  private observer: IntersectionObserver | null = null;
+  private viewedIds = new Set<string>();
 
   private complaintService = inject(ComplaintService);
   private message = inject(NzMessageService);
@@ -43,10 +42,9 @@ export class AdminDashboardComponent implements OnInit {
 
   @ViewChild('commentTemplate') commentTemplate!: TemplateRef<any>;
   @ViewChild('commentInput', { static: false }) commentInput!: ElementRef<HTMLTextAreaElement>;
-
-  constructor() {
-    this.currentUser = this.authService.currentUser;
-  }
+  currentUser = this.authService.currentUser();
+  complaints = signal<Complaint[]>([]);
+  loading = signal(false);
 
   ngOnInit(): void {
     if (this.platform.isBrowser()) {
@@ -60,6 +58,8 @@ export class AdminDashboardComponent implements OnInit {
       next: (data: Complaint[]) => {
         this.complaints.set(data);
         this.loading.set(false);
+        // Re-setup observer after data load
+        setTimeout(() => this.setupObserver(), 500);
       },
       error: (err) => {
         const errorMsg = err.error?.message || 'Failed to load complaints';
@@ -69,9 +69,72 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    if (this.platform.isBrowser()) {
+      this.setupObserver();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  private setupObserver(): void {
+    if (!this.platform.isBrowser()) return;
+
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('data-id');
+          if (id && !this.viewedIds.has(id)) {
+            const complaint = this.complaints().find(c => c.id === id);
+            // Only mark as viewed if it's pending or not already viewed by current user
+            const alreadySeen = complaint?.views?.some(v => v.admin.email === this.currentUser?.email);
+
+            if (complaint && !alreadySeen) {
+              this.markAsViewed(id);
+            } else if (id) {
+              this.viewedIds.add(id);
+            }
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const rows = document.querySelectorAll('tr[data-id]');
+    rows.forEach(row => this.observer?.observe(row));
+  }
+
+  private markAsViewed(id: string): void {
+    if (this.viewedIds.has(id)) return;
+    this.viewedIds.add(id);
+
+    this.complaintService.markAsViewed(id).subscribe({
+      next: (updated) => {
+        // Update the signal with the new status/views if needed
+        const current = this.complaints();
+        const index = current.findIndex(c => c.id === id);
+        if (index !== -1) {
+          current[ index ] = updated;
+          this.complaints.set([ ...current ]);
+        }
+      },
+      error: (err) => {
+        console.error('Failed to mark as viewed', err);
+        this.viewedIds.delete(id); // Retry later if needed
+      }
+    });
+  }
+
   currentComment = '';
 
-  updateStatus(complaint: Complaint, status: 'Reviewed' | 'Resolved'): void {
+  updateStatus(complaint: Complaint, status: 'Seen' | 'Resolved'): void {
     this.currentComment = complaint.adminComment || '';
 
     this.modal.confirm({
@@ -108,11 +171,23 @@ export class AdminDashboardComponent implements OnInit {
                </div>`
       : '';
 
+    const seenByHtml = complaint.views?.length
+      ? `<div style="margin-top: 10px; font-size: 12px; color: #888;">
+          <strong>Seen by:</strong> ${complaint.views.map(v => v.admin.name).join(', ')}
+         </div>`
+      : '';
+
+    const studentInfoHtml = complaint.student
+      ? `<p style="margin-bottom: 8px;"><strong>Submitted by:</strong> ${complaint.student.name} (${complaint.student.email})</p>`
+      : '';
+
     this.modal.info({
-      nzTitle: `Complaint: ${complaint.title}`,
+      nzTitle: `Complaint Details`,
       nzContent: `<div style="padding-top: 10px;">
+                            ${studentInfoHtml}
                             <p style="margin-bottom: 8px;"><strong>Status:</strong> ${complaint.status}</p>
                             <p style="margin-bottom: 8px;"><strong>Date:</strong> ${new Date(complaint.createdAt).toLocaleString()}</p>
+                            ${seenByHtml}
                             <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
                             <p style="white-space: pre-wrap; color: #333; line-height: 1.6;">${complaint.description}</p>
                             ${adminCommentHtml}
@@ -126,7 +201,7 @@ export class AdminDashboardComponent implements OnInit {
   getStatusColor(status: string): string {
     switch (status) {
       case 'Pending': return 'red';
-      case 'Reviewed': return 'blue';
+      case 'Seen': return 'blue';
       case 'Resolved': return 'green';
       default: return 'default';
     }

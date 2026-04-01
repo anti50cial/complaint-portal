@@ -31,10 +31,6 @@ import { AuthService } from '../auth/auth.service';
   styleUrl: './student-dashboard.css'
 })
 export class StudentDashboardComponent implements OnInit {
-  complaintForm: FormGroup;
-  complaints = signal<Complaint[]>([]);
-  loading = signal(false);
-  currentUser = signal<any>(null);
 
   private fb = inject(FormBuilder);
   private complaintService = inject(ComplaintService);
@@ -43,10 +39,12 @@ export class StudentDashboardComponent implements OnInit {
   private authService = inject(AuthService);
   private modal = inject(NzModalService);
 
+  currentUser = this.authService.currentUser();
+  complaintForm: FormGroup;
+  complaints = signal<Complaint[]>([]);
+  loading = signal(false);
   constructor() {
-    this.currentUser = this.authService.currentUser;
     this.complaintForm = this.fb.group({
-      title: [ '', [ Validators.required, Validators.minLength(5) ] ],
       description: [ '', [ Validators.required, Validators.minLength(10) ] ]
     });
   }
@@ -108,11 +106,18 @@ export class StudentDashboardComponent implements OnInit {
          </div>`
       : '';
 
+    const seenByHtml = complaint.views?.length
+      ? `<div style="margin-top: 10px; font-size: 12px; color: #888;">
+          <strong>Seen by:</strong> ${complaint.views.map(v => v.admin.name).join(', ')}
+         </div>`
+      : '';
+
     this.modal.info({
-      nzTitle: complaint.title,
+      nzTitle: `Complaint Details`,
       nzContent: `<div style="padding-top: 10px;">
                     <p style="margin-bottom: 8px;"><strong>Status:</strong> ${complaint.status}</p>
                     <p style="margin-bottom: 8px;"><strong>Date:</strong> ${new Date(complaint.createdAt).toLocaleString()}</p>
+                    ${seenByHtml}
                     <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
                     <p style="white-space: pre-wrap; color: #555;">${complaint.description}</p>
                     ${adminCommentHtml}
@@ -126,7 +131,7 @@ export class StudentDashboardComponent implements OnInit {
   getStatusColor(status: string): string {
     switch (status) {
       case 'Pending': return 'red';
-      case 'Reviewed': return 'blue';
+      case 'Seen': return 'blue';
       case 'Resolved': return 'green';
       default: return 'default';
     }

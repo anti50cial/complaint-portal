@@ -2,7 +2,7 @@
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
     <h1 class="text-2xl md:text-3xl font-bold m-0">Student Complaint Portal</h1>
     <div class="flex items-center gap-3 md:gap-4 w-full md:w-auto justify-between md:justify-end bg-white/50 p-3 md:p-0 rounded-xl md:bg-transparent border border-white/40 md:border-none">
-      <span class="text-gray-600 text-sm md:text-base">Welcome, <strong>{{ currentUser()?.name }}</strong></span>
+      <span class="text-gray-600 text-sm md:text-base">Welcome, <strong>{{ currentUser?.name }}</strong></span>
       <button nz-button nzType="default" (click)="logout()" class="flex items-center hover:text-red-500 transition-colors rounded-lg">
         <span nz-icon nzType="logout"></span>
         <span class="ml-2">Logout</span>
@@ -15,23 +15,9 @@
     <h2 class="text-xl mb-4 font-semibold">Submit New Complaint</h2>
     <form nz-form [formGroup]="complaintForm" (ngSubmit)="submitComplaint()">
       <nz-form-item>
-        <nz-form-label [nzSpan]="24" nzRequired nzFor="title">Title</nz-form-label>
-        <nz-form-control [nzErrorTip]="titleError">
-          <input nz-input formControlName="title" id="title" placeholder="Enter a descriptive title" />
-          <ng-template #titleError let-control>
-            @if (control.hasError('required')) {
-            Please enter a title
-            } @else if (control.hasError('minlength')) {
-            Title must be at least 5 characters
-            }
-          </ng-template>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSpan]="24" nzRequired nzFor="description">Description</nz-form-label>
+        <nz-form-label [nzSpan]="24" nzRequired nzFor="description">Describe your complaint in details</nz-form-label>
         <nz-form-control [nzErrorTip]="descError">
-          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{ minRows: 4 }" placeholder="Describe your complaint in detail"></textarea>
+          <textarea nz-input formControlName="description" id="description" [nzAutosize]="{ minRows: 4 }" placeholder="Provide full details of your complaint here"></textarea>
           <ng-template #descError let-control>
             @if (control.hasError('required')) {
             Please enter a description
@@ -60,8 +46,8 @@
       </ng-template>
       <thead>
         <tr>
-          <th>Title</th>
           <th>Submitted Date</th>
+          <th>Description (Preview)</th>
           <th>Status</th>
           <th nzWidth="100px">Actions</th>
         </tr>
@@ -69,8 +55,10 @@
       <tbody>
         @for (data of basicTable.data; track data.id) {
         <tr>
-          <td>{{ data.title }}</td>
           <td>{{ data.createdAt | date:'mediumDate' }}</td>
+          <td class="text-gray-600 italic">
+            {{ data.description | slice:0:60 }}{{ data.description.length > 60 ? '...' : '' }}
+          </td>
           <td>
             <nz-tag [nzColor]="getStatusColor(data.status)">
               {{ data.status }}

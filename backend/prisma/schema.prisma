@@ -16,26 +16,38 @@ enum Role {
 
 enum ComplaintStatus {
   Pending
-  Reviewed
+  Seen
   Resolved
 }
 
 model User {
-  id         String      @id @default(cuid())
+  id         String          @id @default(cuid())
   name       String
-  email      String      @unique
+  email      String          @unique
   password   String
-  role       Role        @default(STUDENT)
+  role       Role            @default(STUDENT)
   complaints Complaint[]
+  views      ComplaintView[]
 }
 
 model Complaint {
   id           String          @id @default(cuid())
-  title        String
   description  String
   status       ComplaintStatus @default(Pending)
   studentId    String
   student      User            @relation(fields: [studentId], references: [id])
   createdAt    DateTime        @default(now())
   adminComment String?
+  views        ComplaintView[]
+}
+
+model ComplaintView {
+  id          String    @id @default(cuid())
+  complaintId String
+  complaint   Complaint @relation(fields: [complaintId], references: [id])
+  adminId     String
+  admin       User      @relation(fields: [adminId], references: [id])
+  viewedAt    DateTime  @default(now())
+
+  @@unique([complaintId, adminId])
 }

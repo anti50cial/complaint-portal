@@ -15,20 +15,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '@prisma/client';
-import type { Request } from 'express';
-
-/**
- * NOTE: Replace these guard/decorator stubs with your real Auth & Roles
- * guards once you have authentication set up (e.g. JWT + Passport).
- *
- * Expected req.user shape: { id: string; role: 'STUDENT' | 'ADMIN' }
- */
-interface AuthenticatedRequest extends Request {
-  user: {
-    id: string;
-    role: 'STUDENT' | 'ADMIN';
-  };
-}
+import { AuthenticatedRequest } from '../auth/interfaces/authenticated-request.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('complaints')
@@ -80,5 +67,17 @@ export class ComplaintsController {
   @UseGuards(RolesGuard)
   updateStatus(@Param('id') id: string, @Body() dto: UpdateComplaintStatusDto) {
     return this.complaintsService.updateStatus(id, dto);
+  }
+
+  /**
+   * PATCH /complaints/:id/view
+   * Admin marks a complaint as viewed.
+   */
+  @Patch(':id/view')
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
+  markAsViewed(@Param('id') id: string, @Req() req: AuthenticatedRequest) {
+    const adminId = req.user.id;
+    return this.complaintsService.markAsViewed(id, adminId);
   }
 }

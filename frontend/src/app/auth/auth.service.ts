@@ -78,6 +78,34 @@ export class AuthService {
         this.logout();
       }
     }
+
+    // Always try to sync profile from server if we have a token
+    if (this.isAuthenticated()) {
+      this.syncProfile();
+    }
+  }
+
+  syncProfile(): void {
+    this.getProfile().subscribe({
+      next: (res) => {
+        const user = res.data;
+        this.currentUser.set(user);
+        if (this.platform.isBrowser()) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+      },
+      error: () => {
+        // If profile fetch fails, maybe token is invalid
+        // But we don't necessarily logout here to avoid aggressive kickouts on network error
+      }
+    });
+  }
+
+  getProfile(): Observable<ApiResponse<User>> {
+    const token = localStorage.getItem('access_token');
+    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/profile`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
   }
 
   isAuthenticated(): boolean {

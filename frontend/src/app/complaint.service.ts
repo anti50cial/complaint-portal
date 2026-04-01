@@ -4,15 +4,20 @@ import { Observable, map } from 'rxjs';
 
 export interface Complaint {
   id: string;
-  title: string;
   description: string;
-  status: 'Pending' | 'Reviewed' | 'Resolved';
+  status: 'Pending' | 'Seen' | 'Resolved';
   createdAt: string;
   student?: {
     email: string;
     name: string;
   };
   adminComment?: string | null;
+  views?: Array<{
+    admin: {
+      name: string;
+      email: string;
+    };
+  }>;
 }
 
 export interface ApiResponse<T> {
@@ -41,7 +46,11 @@ export class ComplaintService {
     return this.http.post<ApiResponse<Complaint>>(this.apiUrl, data).pipe(map(res => res.data));
   }
 
-  updateComplaintStatus(id: string, status: 'Reviewed' | 'Resolved', adminComment?: string): Observable<Complaint> {
+  updateComplaintStatus(id: string, status: 'Seen' | 'Resolved', adminComment?: string): Observable<Complaint> {
     return this.http.patch<ApiResponse<Complaint>>(`${this.apiUrl}/${id}/status`, { status, adminComment }).pipe(map(res => res.data));
+  }
+
+  markAsViewed(id: string): Observable<Complaint> {
+    return this.http.patch<ApiResponse<Complaint>>(`${this.apiUrl}/${id}/view`, {}).pipe(map(res => res.data));
   }
 }
