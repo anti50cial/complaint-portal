@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { PlatformService } from '../core/services/platform.service';
-import { getAppConfig } from '../core/config/app-config';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id: string;
@@ -43,7 +43,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly platform = inject(PlatformService);
-  private readonly apiUrl = `${getAppConfig().apiBaseUrl}/auth`;
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
   currentUser = signal<User | null>(null);
 
   constructor() {
