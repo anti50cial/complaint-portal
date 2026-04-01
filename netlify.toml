@@ -2,3 +2,4 @@
   base = "frontend"
   command = "./scripts/netlify-build.sh"
   publish = "dist/frontend/browser"
+
