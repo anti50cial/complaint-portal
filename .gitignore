@@ -36,7 +36,4 @@ yarn-error.log*
 **/src/generated/prisma/
 .codex
 # Build artifacts
-backend/prisma.config.d.ts
-backend/prisma.config.js
-backend/prisma.config.js.map
 backend/tsconfig.build.tsbuildinfo
