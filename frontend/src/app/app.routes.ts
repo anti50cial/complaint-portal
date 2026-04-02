@@ -28,5 +28,13 @@ export const routes: Routes = [
         data: { role: 'ADMIN' },
         title: 'Complaint Portal - Admin Dashboard'
     },
-    { path: '', redirectTo: 'login', pathMatch: 'full' }
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    {
+        path: 'super-admin',
+        loadComponent: () =>
+            import('./super-admin/super-admin-dashboard/super-admin-dashboard').then((m) => m.SuperAdminDashboardComponent),
+        canActivate: [ authGuard, roleGuard ],
+        data: { role: 'SUPER_ADMIN' },
+        title: 'Complaint Portal - Super Admin'
+    },
 ];

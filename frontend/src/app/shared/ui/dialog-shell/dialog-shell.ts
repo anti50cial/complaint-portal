@@ -5,7 +5,13 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } 
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="dialog-shell" role="dialog" aria-modal="true" [attr.aria-labelledby]="headingId()">
+    <div
+      class="dialog-shell"
+      [class.dialog-shell--dark]="theme() === 'dark'"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-labelledby]="headingId()"
+    >
       <button
         type="button"
         class="dialog-shell__backdrop"
@@ -142,6 +148,38 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } 
       margin-top: 1.25rem;
     }
 
+    /* Dark theme overrides - More robust selectors */
+    .dialog-shell.dialog-shell--dark .dialog-shell__card {
+      background: #0f172a !important;
+      border: 1px solid rgba(99, 102, 241, 0.4) !important;
+      color: #f8fafc !important;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(99, 102, 241, 0.15) !important;
+    }
+
+    .dialog-shell.dialog-shell--dark .dialog-shell__title {
+      color: #ffffff !important;
+    }
+
+    .dialog-shell.dialog-shell--dark .dialog-shell__close {
+      background: #1e293b !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      color: #f8fafc !important;
+    }
+
+    .dialog-shell.dialog-shell--dark .dialog-shell__close:hover {
+      background: #334155 !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .dialog-shell.dialog-shell--dark .dialog-shell__panel {
+      background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .dialog-shell.dialog-shell--dark .dialog-shell__copy,
+    .dialog-shell.dialog-shell--dark .dialog-shell__panel-title {
+      color: #f1f5f9 !important;
+    }
+
     @media (min-width: 768px) {
       .dialog-shell__detail-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -151,6 +189,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output } 
 })
 export class DialogShellComponent {
   title = input.required<string>();
+  theme = input<'light' | 'dark'>('light');
   headingId = input('dialog-shell-title');
   closeLabel = input('Close dialog');
   closed = output<void>();

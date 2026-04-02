@@ -9,7 +9,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'STUDENT' | 'ADMIN';
+  role: 'STUDENT' | 'ADMIN' | 'SUPER_ADMIN';
 }
 
 export interface AuthResponse {
@@ -128,7 +128,7 @@ export class AuthService {
     return false;
   }
 
-  getRole(): 'STUDENT' | 'ADMIN' | null {
+  getRole(): 'STUDENT' | 'ADMIN' | 'SUPER_ADMIN' | null {
     return this.currentUser()?.role || null;
   }
 }

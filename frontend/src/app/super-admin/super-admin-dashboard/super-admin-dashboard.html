@@ -1,0 +1,333 @@
+<div class="sa-layout" ngSkipHydration>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="sa-header">
+    <div class="sa-header__brand">
+      <span class="sa-header__shield" aria-hidden="true">🛡️</span>
+      <div>
+        <h1 class="sa-header__title">Super Admin Console</h1>
+        <p class="sa-header__sub">Complaint Portal — Elevated Privileges</p>
+      </div>
+    </div>
+    <div class="sa-header__meta">
+      <span class="sa-role-badge">SUPER ADMIN</span>
+      <span class="sa-header__name">{{ currentUser()?.name }}</span>
+      <button type="button" class="sa-logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <!-- ── Global feedback ────────────────────────────────────────────────── -->
+  @if (feedback(); as msg) {
+    <div class="sa-feedback-wrap">
+      <app-feedback-banner
+        [tone]="msg.type"
+        [message]="msg.text"
+        (dismissed)="dismissFeedback()"
+      />
+    </div>
+  }
+
+  <main class="sa-main">
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECTION 1 — USERS
+    ─────────────────────────────────────────────────────────────────────── -->
+    <section class="sa-card" aria-labelledby="users-heading">
+      <div class="sa-card__header">
+        <div>
+          <h2 class="sa-card__title" id="users-heading">
+            <span class="sa-card__icon" aria-hidden="true">👥</span>
+            All Users
+          </h2>
+          <p class="sa-card__count">
+            {{ users().length }} user{{ users().length !== 1 ? 's' : '' }} registered
+          </p>
+        </div>
+        <div class="sa-card__actions">
+          <button
+            id="refresh-users-btn"
+            type="button"
+            class="sa-btn sa-btn--ghost"
+            (click)="loadUsers()"
+            [disabled]="loadingUsers()"
+          >Refresh</button>
+
+          @if (selectedUserIds().size > 0) {
+            <button
+              id="delete-selected-users-btn"
+              type="button"
+              class="sa-btn sa-btn--danger"
+              (click)="openConfirm('delete-selected-users')"
+            >
+              <span aria-hidden="true">🗑</span> Delete Selected ({{ selectedUserIds().size }})
+            </button>
+          }
+
+          <button
+            id="delete-users-btn"
+            type="button"
+            class="sa-btn sa-btn--danger sa-btn--outline"
+            (click)="openConfirm('delete-users')"
+            [disabled]="users().length === 0"
+          >
+            <span aria-hidden="true">🧨</span> Delete All Users
+          </button>
+        </div>
+      </div>
+
+      <!-- Danger notice -->
+      <div class="sa-notice sa-notice--warn" role="note">
+        <strong>⚠️ Warning:</strong> Destructive actions will permanently remove users and data.
+      </div>
+
+      @if (loadingUsers()) {
+        <p class="sa-loading">Loading users…</p>
+      } @else if (users().length === 0) {
+        <p class="sa-empty">No users found. The application is clean.</p>
+      } @else {
+        <div class="sa-table-wrap">
+          <table class="sa-table" aria-label="All registered users">
+            <thead>
+              <tr>
+                <th scope="col" class="sa-table__check">
+                  <input
+                    type="checkbox"
+                    [checked]="selectedUserIds().size === users().length && users().length > 0"
+                    (change)="toggleAllUsers()"
+                    aria-label="Select all users"
+                  />
+                </th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users(); track user.id) {
+                <tr [class.sa-table__row--selected]="selectedUserIds().has(user.id)">
+                  <td class="sa-table__check">
+                    <input
+                      type="checkbox"
+                      [checked]="selectedUserIds().has(user.id)"
+                      (change)="toggleUser(user.id)"
+                      [aria-label]="'Select ' + user.name"
+                    />
+                  </td>
+                  <td>{{ user.name }}</td>
+                  <td class="sa-table__email">{{ user.email }}</td>
+                  <td>
+                    <span class="sa-role-chip" [class]="'sa-role-chip--' + user.role.toLowerCase()">
+                      {{ user.role }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECTION 2 — COMPLAINTS
+    ─────────────────────────────────────────────────────────────────────── -->
+    <section class="sa-card" aria-labelledby="complaints-heading">
+      <div class="sa-card__header">
+        <div>
+          <h2 class="sa-card__title" id="complaints-heading">
+            <span class="sa-card__icon" aria-hidden="true">📋</span>
+            All Complaints
+          </h2>
+          <p class="sa-card__count">
+            {{ complaints().length }} complaint{{ complaints().length !== 1 ? 's' : '' }} on record
+          </p>
+        </div>
+        <div class="sa-card__actions">
+          <button
+            id="refresh-complaints-btn"
+            type="button"
+            class="sa-btn sa-btn--ghost"
+            (click)="loadComplaints()"
+            [disabled]="loadingComplaints()"
+          >Refresh</button>
+
+          @if (selectedComplaintIds().size > 0) {
+            <button
+              id="delete-selected-complaints-btn"
+              type="button"
+              class="sa-btn sa-btn--danger"
+              (click)="openConfirm('delete-selected-complaints')"
+            >
+              <span aria-hidden="true">🗑</span> Delete Selected ({{ selectedComplaintIds().size }})
+            </button>
+          }
+
+          <button
+            id="delete-complaints-btn"
+            type="button"
+            class="sa-btn sa-btn--danger sa-btn--outline"
+            (click)="openConfirm('delete-complaints')"
+            [disabled]="complaints().length === 0"
+          >
+            <span aria-hidden="true">🧨</span> Delete All Complaints
+          </button>
+        </div>
+      </div>
+
+      <!-- Danger notice -->
+      <div class="sa-notice sa-notice--warn" role="note">
+        <strong>⚠️ Warning:</strong> Deleted complaints cannot be recovered.
+      </div>
+
+      @if (loadingComplaints()) {
+        <p class="sa-loading">Loading complaints…</p>
+      } @else if (complaints().length === 0) {
+        <p class="sa-empty">No complaints found.</p>
+      } @else {
+        <div class="sa-table-wrap">
+          <table class="sa-table" aria-label="All complaints">
+            <thead>
+              <tr>
+                <th scope="col" class="sa-table__check">
+                  <input
+                    type="checkbox"
+                    [checked]="selectedComplaintIds().size === complaints().length && complaints().length > 0"
+                    (change)="toggleAllComplaints()"
+                    aria-label="Select all complaints"
+                  />
+                </th>
+                <th scope="col">Student</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (complaint of complaints(); track complaint.id) {
+                <tr [class.sa-table__row--selected]="selectedComplaintIds().has(complaint.id)">
+                  <td class="sa-table__check">
+                    <input
+                      type="checkbox"
+                      [checked]="selectedComplaintIds().has(complaint.id)"
+                      (change)="toggleComplaint(complaint.id)"
+                      [aria-label]="'Select complaint from ' + complaint.student.name"
+                    />
+                  </td>
+                  <td class="sa-table__student">
+                    <div>{{ complaint.student.name }}</div>
+                    <div class="sa-table__email">{{ complaint.student.email }}</div>
+                  </td>
+                  <td class="sa-table__preview">
+                    {{ complaint.description | slice:0:80 }}{{ complaint.description.length > 80 ? '…' : '' }}
+                  </td>
+                  <td>
+                    <app-status-badge [status]="complaint.status" />
+                  </td>
+                  <td class="sa-table__date">{{ complaint.createdAt | date:'mediumDate' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+
+    <!-- ────────────────────────────────────────────────────────────────────
+         SECTION 3 — DANGER ZONE
+    ─────────────────────────────────────────────────────────────────────── -->
+    <section class="sa-danger-zone" aria-labelledby="danger-heading">
+      <div class="sa-danger-zone__header">
+        <span class="sa-danger-zone__skull" aria-hidden="true">💀</span>
+        <h2 class="sa-danger-zone__title" id="danger-heading">Danger Zone</h2>
+      </div>
+
+      <div class="sa-danger-zone__body">
+        <div class="sa-notice sa-notice--critical" role="alert">
+          <p class="sa-notice__headline">
+            ⛔ IRREVERSIBLE ACTION — READ CAREFULLY BEFORE PROCEEDING
+          </p>
+          <p>
+            <strong>Reset Application</strong> will <em>permanently destroy</em> every piece of data
+            in this system:
+          </p>
+          <ul class="sa-notice__list">
+            <li>All student and admin accounts</li>
+            <li>All complaints and admin responses</li>
+            <li>All view history</li>
+          </ul>
+          <p>
+            <strong>Only your Super Admin account will be preserved.</strong> There is no backup.
+            There is no undo. The application will return to a completely blank state.
+          </p>
+        </div>
+
+        <button
+          id="reset-application-btn"
+          type="button"
+          class="sa-btn sa-btn--reset"
+          (click)="openConfirm('reset')"
+        >
+          <span aria-hidden="true">💀</span> Reset Application
+        </button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ── Confirmation dialog ──────────────────────────────────────────────── -->
+@if (confirmDialog(); as dialog) {
+  <app-dialog-shell
+    [title]="dialog.title"
+    [theme]="'dark'"
+    headingId="confirm-dialog-title"
+    closeLabel="Close confirmation dialog"
+    (closed)="closeConfirm()"
+  >
+
+    <div class="sa-confirm">
+      <div class="sa-notice sa-notice--critical" role="alert">
+        <p>{{ dialog.warning }}</p>
+      </div>
+
+      <div class="sa-confirm__form">
+        <label class="sa-confirm__label" for="confirm-password">
+          Enter your Super Admin password to confirm:
+        </label>
+        <input
+          id="confirm-password"
+          type="password"
+          class="sa-confirm__input"
+          [class.sa-confirm__input--invalid]="passwordControl.invalid && passwordControl.touched"
+          autocomplete="current-password"
+          placeholder="Your password…"
+          [value]="passwordControl.value ?? ''"
+          (input)="updatePassword($event)"
+        />
+        @if (passwordControl.invalid && passwordControl.touched) {
+          <p class="sa-confirm__error" role="alert">Password is required.</p>
+        }
+      </div>
+
+      <div class="sa-confirm__actions">
+        <button
+          id="cancel-confirm-btn"
+          type="button"
+          class="sa-btn sa-btn--ghost"
+          (click)="closeConfirm()"
+        >Cancel</button>
+        <button
+          id="execute-action-btn"
+          type="button"
+          class="sa-btn sa-btn--danger"
+          [class.sa-btn--reset]="dialog.action === 'reset'"
+          (click)="confirmAction()"
+          [disabled]="executing()"
+        >
+          {{ executing() ? 'Processing…' : 'Yes, I understand — Proceed' }}
+        </button>
+      </div>
+    </div>
+
+  </app-dialog-shell>
+}

@@ -15,6 +15,9 @@ export const roleGuard: CanActivateFn = (route, state) => {
   }
 
   // Redirect if role doesn't match
-  const redirectPath = user?.role === 'ADMIN' ? '/admin' : '/student-dashboard';
+  let redirectPath = '/login';
+  if (user?.role === 'ADMIN') redirectPath = '/admin';
+  else if (user?.role === 'SUPER_ADMIN') redirectPath = '/super-admin';
+  else if (user?.role === 'STUDENT') redirectPath = '/student-dashboard';
   return router.createUrlTree([ redirectPath ]);
 };
